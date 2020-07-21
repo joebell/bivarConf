@@ -9,8 +9,6 @@
 function XYpointConfidence(ptIn, nBoots, nBins, alpha, varargin)
 
     nPts = size(ptIn,1);
-    meanVal = mean(ptIn,1);
-    plot(meanVal(1), meanVal(2),'r.');
 
     bootPts = zeros(nBoots,nPts,2);
     bootAvgs = zeros(nBoots,2);
