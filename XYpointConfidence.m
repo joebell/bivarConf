@@ -16,7 +16,7 @@ function XYpointConfidence(ptIn, nBoots, nBins, alpha, varargin)
         bootPts(bootN,:,1) = ptIn(randi(nPts,nPts,1),1);
         bootPts(bootN,:,2) = ptIn(randi(nPts,nPts,1),2);
     end
-    bootAvgs = squeeze(mean(bootPts,2));
+    bootAvgs = squeeze(nanmean(bootPts,2));
     
     [N,binCenters] = hist3(bootAvgs,[nBins,nBins]);
     P = N/nBoots;
