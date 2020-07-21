@@ -6,7 +6,7 @@
 %   ptIn should be an array of points with shape [nTrials, 2]
 %
 %%
-function XYpointConfidence(ptIn, nBoots, nBins, alpha, varargin)
+function XYpointConfidence(ptIn, nBoots, nBins, alpha)
 
     nPts = size(ptIn,1);
     meanVal = mean(ptIn,1);
@@ -25,15 +25,18 @@ function XYpointConfidence(ptIn, nBoots, nBins, alpha, varargin)
     sP = sort(P(:),'descend');
     cP = cumsum(sP);
     level = sP(find(cP > (1 - alpha),1));
-    M = contourc(binCenters{1},binCenters{2},P,[level level]);
-    g = plotContour(M,'FaceColor','blue','FaceAlpha',0.5,'EdgeColor','None',...
-        varargin{:});
+    subplot(1,2,1);
+    [M, h] = contourf(binCenters{1},binCenters{2},P,[level level]);
+    % h.delete(); Just replace contourf with contourc
+    subplot(1,2,2);
+    g = plotContour(M,'FaceColor','blue','FaceAlpha',0.5,'EdgeColor','None');
 
 end
-% Plots contours from contour matrix using polyshapes. This replaces the draw
+% Plots contours from contour matrix using patches. This replaces the draw
 % functionality of contourf, so that patch properties can be set more
 % flexibly.
 function h = plotContour(M, varargin)
+    h = [];
     stIX = 1;
     enIX = stIX + M(2, stIX);
     while (stIX < size(M,2))
@@ -44,7 +47,7 @@ function h = plotContour(M, varargin)
     warning('off');
     p = polyshape(M(1,:),M(2,:),'Simplify',true);
     warning('on');
-    h = plot(p,varargin{:});
+    plot(p,varargin{:})
 end    
     
     
